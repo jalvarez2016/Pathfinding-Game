@@ -12,7 +12,7 @@ class Navbar extends React.Component {
     render () {
 
         let navStyle ={
-            maxHeight: "50px",
+            maxHeight: "40px",
             color: "white",
             backgroundColor: "black",
             position: "absolute",

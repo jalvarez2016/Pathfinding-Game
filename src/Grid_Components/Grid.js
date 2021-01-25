@@ -2,31 +2,31 @@ import Node from './Node.js'
 import dijkstra from '../Algorithms/Dijkstra.js'
 import React from 'react'
 
-
-const START_NODE_ROW = 10;
-const START_NODE_COL = 15;
-const FINISH_NODE_ROW = 10;
-const FINISH_NODE_COL = 35;
-
-const createNode = (col, row) => {
-    return {
-      col,
-      row,
-      isStart: row === START_NODE_ROW && col === START_NODE_COL,
-      isFinish: row === FINISH_NODE_ROW && col === FINISH_NODE_COL,
-      distance: Infinity,
-      isVisited: false,
-      isWall: false,
-      previousNode: null,
-    };
+const createNode = (col, row, end=false) => {
+    if(col === 0 && row === 0){
+        return <Node key={`${col}-${row}`} col={col} row={row} isWall={false} isEnd={false} start={true}/>
+    }
+    if(end){
+        return <Node key={`${col}-${row}`} col={col} row={row} isWall={false} isEnd={true} start={false}/>
+    }
+    let wall = (Math.floor(Math.random() * 2500) > 2000) ? true: false;
+    return <Node key={`${col}-${row}`} col={col} row={row} isWall={wall} isEnd={false} start={false}/>
   };
 
 const getInitialGrid = () => {
     const grid = [];
-    for (let row = 0; row < 20; row++) {
+    let end = {
+        x: Math.floor(Math.random() * 50),
+        y: Math.floor(Math.random() * 50)
+    };
+    for (let row = 0; row < 50; row++) {
         const currentRow = [];
         for (let col = 0; col < 50; col++) {
-            currentRow.push(createNode(col, row));
+            if(row === end.x && col === end.y) {
+                currentRow.push(createNode(col, row, end));
+            } else {
+                currentRow.push(createNode(col, row));
+            }
         }
         grid.push(currentRow);
     }
@@ -49,19 +49,19 @@ class Grid extends React.Component {
     render () {
 
         let gridStyle ={
-            minHeight: "500px",
-            minWidth: "600px",
+            height: "600px",
+            width: "600px",
             backgroundColor: "white",
-            // display: "flex",
-            // justifyContent: "flex-start",
-            border: "2px solid black"
+            display: "flex",
+            justifyContent: "flex-start",
+            flexWrap: "wrap",
+            marginTop: "30px"
         }
 
         return (
             <div>
                 <div style={gridStyle} className='grid'>
-                    <Node/>
-                    {/* finish constructing node component */}
+                    {this.state.grid}
                 </div>
             </div>
         )

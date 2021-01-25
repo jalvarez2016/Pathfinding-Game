@@ -12,7 +12,7 @@ class NavItem extends React.Component {
 
         let navItemStyle ={
             minWidth: this.props.width,
-            padding: "20px",
+            padding: "5px",
             paddingLeft: this.props.paddingLeft,
             paddingRight: this.props.paddingRight,
         }
